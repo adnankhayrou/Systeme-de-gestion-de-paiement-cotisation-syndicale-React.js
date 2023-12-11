@@ -6,7 +6,7 @@ const NavBar = () => {
   return (
     <nav className="z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center ">
           <div className=" flex items-center justify-start rtl:justify-end">
             <Link to="" className="flex md:me-24">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-8 me-3 text-pink-800">

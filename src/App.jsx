@@ -7,8 +7,6 @@ import ForgotPassword from './components/ForgotPassword'
 import ResetPassword from './components/ResetPassword'
 import Cookies from 'js-cookie';
 import VerifyEmail from './components/VerifyEmail'
-import GetUser from './components/GetUser'
-import ShowUser from './components/ShowUser'
 
 // eslint-disable-next-line react/prop-types
 const LogoutMiddleware = ({ children }) => {
@@ -32,7 +30,7 @@ const LoginMiddleware = ({ children }) => {
   } 
 
   return (
-    <Navigate to="/" />
+    <Navigate to="/"/>
   )
 }
 
@@ -46,28 +44,9 @@ function App() {
         <Route path='/forgotPassword' element={ <ForgotPassword />} />
         <Route path='/resetPassword/:token' element={ <ResetPassword /> }/>
         <Route path='/verifyEmail/:token' element={ <VerifyEmail /> }/>
-        <Route path='/GetUser' element={ <GetUser /> }/>
-        <Route path='/showUser' element={ <ShowUser /> }/>
       </Routes>
     </BrowserRouter>
   )
 }
-
-// function App() {
-//   const isAuthenticated = !!Cookies.get('jwtToken'); 
-
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//       <Route path='/' element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
-//         <Route path='/register' element={isAuthenticated ? <Navigate to="/" /> : <Register />} />
-//         <Route path='/login' element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
-//         <Route path='/forgotPassword' element={ <ForgotPassword />} />
-//         <Route path='/resetPassword/:token' element={ <ResetPassword /> }/>
-//         <Route path='/verifyEmail/:token' element={ <VerifyEmail /> }/>
-//       </Routes>
-//     </BrowserRouter>
-//   )
-// }
 
 export default App
