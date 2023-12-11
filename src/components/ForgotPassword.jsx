@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import NavBar from './NavBar'
 import axios from "axios";
 
 const ForgotPassword = () => {
@@ -47,7 +47,8 @@ const [formData, setFormData] = useState({
     }
     return (
     <>
-    <div className="flex items-center justify-center h-screen">
+    <NavBar/>
+    <div className="flex items-center justify-center h-screen ">
         <div className="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
         <div>
         {message && (

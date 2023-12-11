@@ -7,6 +7,9 @@ import ForgotPassword from './components/ForgotPassword'
 import ResetPassword from './components/ResetPassword'
 import Cookies from 'js-cookie';
 import VerifyEmail from './components/VerifyEmail'
+import Apartments from './components/Apartments'
+import Residents from './components/Residents'
+import Payment from './components/Payment'
 
 // eslint-disable-next-line react/prop-types
 const LogoutMiddleware = ({ children }) => {
@@ -38,12 +41,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path='/' element={<LogoutMiddleware> <Home /> </LogoutMiddleware>} />
+        <Route path='/' element={<LogoutMiddleware> <Home /> </LogoutMiddleware>} />
         <Route path='/register' element={<LoginMiddleware> <Register /> </LoginMiddleware>} />
         <Route path='/login' element={<LoginMiddleware> <Login /> </LoginMiddleware>} />
         <Route path='/forgotPassword' element={ <ForgotPassword />} />
         <Route path='/resetPassword/:token' element={ <ResetPassword /> }/>
         <Route path='/verifyEmail/:token' element={ <VerifyEmail /> }/>
+        <Route path='/apartments' element={<LogoutMiddleware> <Apartments /> </LogoutMiddleware>} />
+        <Route path='/residents' element={<LogoutMiddleware> <Residents /> </LogoutMiddleware>} />
+        <Route path='/payment' element={<LogoutMiddleware> <Payment /> </LogoutMiddleware>} />
       </Routes>
     </BrowserRouter>
   )

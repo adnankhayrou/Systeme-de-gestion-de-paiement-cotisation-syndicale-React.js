@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import NavBar from './NavBar'
 
 function ResetPassword() {
 
@@ -60,6 +61,7 @@ function ResetPassword() {
 
   return (
     <>
+    <NavBar/>
     <div className="flex items-center justify-center h-screen">
     <div className="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
     <div>
