@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import NavBar from './NavBar'
+import NavBar from '../Layouts/NavBar'
 
 const Login = () => {
   const navigate = useNavigate();

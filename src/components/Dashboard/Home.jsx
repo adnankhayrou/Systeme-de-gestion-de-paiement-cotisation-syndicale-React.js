@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react'
-import NavBar from './NavBar'
-import SideBar from './SideBare'
+import NavBar from '../Layouts/NavBar'
+import SideBar from '../Layouts/SideBare'
 // import Cookies from 'js-cookie';
 
 const Home = () => {

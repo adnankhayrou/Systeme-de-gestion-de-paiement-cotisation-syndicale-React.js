@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import NavBar from './NavBar'
+import NavBar from '../Layouts/NavBar'
 import axios from "axios";
 
 const ForgotPassword = () => {

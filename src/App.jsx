@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
-import Home from './components/Home'
-import Register from './components/Register'
-import Login from './components/Login'
-import ForgotPassword from './components/ForgotPassword'
-import ResetPassword from './components/ResetPassword'
+import Home from './components/Dashboard/Home'
+import Register from './components/Auth/Register'
+import Login from './components/Auth/Login'
+import ForgotPassword from './components/Auth/ForgotPassword'
+import ResetPassword from './components/Auth/ResetPassword'
 import Cookies from 'js-cookie';
-import VerifyEmail from './components/VerifyEmail'
-import Apartments from './components/Apartments'
-import Residents from './components/Residents'
-import Payment from './components/Payment'
+import VerifyEmail from './components/Auth/VerifyEmail'
+import Apartments from './components/Apartments/Apartments'
+import Residents from './components/Residents/Residents'
+import Payment from './components/Payments/Payment'
 
 // eslint-disable-next-line react/prop-types
 const LogoutMiddleware = ({ children }) => {

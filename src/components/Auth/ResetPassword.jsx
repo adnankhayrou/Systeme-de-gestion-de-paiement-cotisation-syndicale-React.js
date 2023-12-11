@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import NavBar from './NavBar'
+import NavBar from '../Layouts/NavBar'
 
 function ResetPassword() {
 
