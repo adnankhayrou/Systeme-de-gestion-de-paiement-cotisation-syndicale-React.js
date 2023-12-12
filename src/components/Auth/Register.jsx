@@ -79,7 +79,6 @@ const Register = () => {
         </button>
       </div>)}
     </div>
-
       <h4 className="block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
         Sign Up
       </h4>

@@ -7,6 +7,8 @@ const Residents = () => {
     <NavBar/>
     <SideBar/>
       {/* single table */}
+      <div className="sm:ml-64 pt-5"></div>
+      <div className="lg:flex sm:grid items-center justify-center m-3"></div>
       <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-14">
       <div className="relative overflow-x-auto rounded-lg mb-3 me-3">
         <div className='flex justify-end mt-5'>

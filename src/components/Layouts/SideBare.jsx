@@ -35,7 +35,7 @@ const SideBare = () => {
           onClick={toggleSidebar}
           aria-controls="sidebar-multi-level-sidebar"
           type="button"
-          className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+          className="inline-flex items-center pt-14 p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
           <span className="sr-only">Open sidebar</span>
           <svg
             className="w-6 h-6"
@@ -55,12 +55,12 @@ const SideBare = () => {
       {/* Sidebar */}
       <aside
         id="sidebar-multi-level-sidebar"
-        className={`fixed left-0 z-40 w-64 h-screen transition-transform ${
+        className={`fixed left-0 r w-64 h-screen transition-transform ${
           sidebarOpen ? '' : '-translate-x-full sm:translate-x-0'
         }`}
         aria-label="Sidebar">
         
-        <div className="h-full px-3 pt-0 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 pt-12 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <div className='text-end p-0'>
             <button
             onClick={toggleSidebar}
@@ -82,7 +82,7 @@ const SideBare = () => {
             </svg>
           </button>
           </div>
-          <div className='ms-2 mt-5 flex items-center'>
+          <div className='ms-2 mt-10 flex items-center'>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 dark:text-pink-700">
             <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
