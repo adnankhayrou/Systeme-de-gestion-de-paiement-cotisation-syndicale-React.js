@@ -1,13 +1,43 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import NavBar from '../Layouts/NavBar'
 import SideBar from '../Layouts/SideBare'
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
 
 const Apartments = () => {
+  const user = JSON.parse(Cookies.get('user'));
+  const user_id = user._id
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [apartments, setApartment] = useState([]);
+  const [refetch, setRefetch] = useState(true)
+
+  const deleteApartment = async (id) => {
+    try {
+      await axios.post(`http://localhost:3000/api/apartment/deleteApartment/${id}`)
+      setRefetch(!refetch)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch orders.
+        const response = await axios.get(`http://localhost:3000/api/apartment/getUserApartments/${user_id}`);
+        setApartment(response.data.apartments);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [refetch]);
 
   return (
-
     <>
     <NavBar/>
     <SideBar/>
@@ -26,6 +56,10 @@ const Apartments = () => {
       </div>
 
         {/* single table */}
+        {apartments.length === 0 ? (<div className="sm:ml-64 pt-5">
+        <p className="lg:flex sm:grid items-center justify-center m-3">You Have No Apartments For This Moment!</p>
+        </div>
+      ) : (
       <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-12">
         <div className=" overflow-x-auto rounded-lg mb-3 me-3">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -37,16 +71,22 @@ const Apartments = () => {
               </tr>
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Payment
+                Building ID
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Color
+                apartment number
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Category
+                resident name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Price
+                resident phone
+                </th>
+                <th scope="col" className="px-6 py-3">
+                resident cin
+                </th>
+                <th scope="col" className="px-6 py-3">
+                condition
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Action
@@ -57,66 +97,47 @@ const Apartments = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Apple MacBook Pro 17
+              {apartments.map((apartment) => (
+              <tr key={apartment.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <th scope="row" className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {apartment.building_ID}
                 </th>
-                <td className="px-6 py-4">
-                  Silver
+                <td className="px-14 py-4">
+                  {apartment.apartment_number}
                 </td>
-                <td className="px-6 py-4">
-                  Laptop
+                <td className="px-12 py-4">
+                {apartment.resident_name}
                 </td>
-                <td className="px-6 py-4">
-                  $2999
+                <td className="px-9 py-4">
+                  {apartment.resident_phone}
                 </td>
-                <td className="px-8 py-4">
-                  <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <td className="px-9 py-4">
+                {apartment.resident_cin}
+                </td>
+                <td className="px-9 py-4">
+                {apartment.condition}
+                </td>
+                <td className="px-9 py-4">
+                  <a onClick={() => setShowEditModal(true)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-green-600">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                   </svg>
                   </a>
                 </td>
-                <td className="px-8 py-4">
-                  <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-red-600">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                  </svg>
-                  </a>
-                </td>
-              </tr>
-              <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Apple MacBook
-                </th>
-                <td className="px-6 py-4">
-                  Silver
-                </td>
-                <td className="px-6 py-4">
-                  Laptop
-                </td>
-                <td className="px-6 py-4">
-                  $2999
-                </td>
-                <td className="px-8 py-4">
-                  <button onClick={() => setShowEditModal(true)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-green-600">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                  </svg>
-                  </button>
-                </td>
-                <td className="px-8 py-4">
-                  <button onClick={() => setShowEditModal(true)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <td className="px-9 py-4">
+                  <button onClick={() => deleteApartment(apartment._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-red-600">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                   </svg>
                   </button>
                 </td>
               </tr>
+              ))}
             </tbody>
           </table>
         </div>
- 
+      </div>)}
+      
         {/* add modal */}
         {showModal ? (
           <>
@@ -360,7 +381,6 @@ const Apartments = () => {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
         ) : null}
-      </div>
     </>
   )
 }
