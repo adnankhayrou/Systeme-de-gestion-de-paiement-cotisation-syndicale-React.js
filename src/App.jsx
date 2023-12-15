@@ -7,7 +7,6 @@ import ResetPassword from './components/Auth/ResetPassword'
 import VerifyEmail from './components/Auth/VerifyEmail'
 import Apartments from './components/Apartments/Apartments'
 import EditApartment from './components/Apartments/EditApartment'
-import Residents from './components/Residents/Residents'
 import Payment from './components/Payments/Payment'
 import Cookies from 'js-cookie';
 
@@ -48,7 +47,6 @@ function App() {
         <Route path='/resetPassword/:token' element={ <ResetPassword /> }/>
         <Route path='/verifyEmail/:token' element={ <VerifyEmail /> }/>
         <Route path='/apartments' element={<LogoutMiddleware> <Apartments /> </LogoutMiddleware>} />
-        <Route path='/residents' element={<LogoutMiddleware> <Residents /> </LogoutMiddleware>} />
         <Route path='/payment' element={<LogoutMiddleware> <Payment /> </LogoutMiddleware>} />
         <Route path='/editApartment' element={<LogoutMiddleware> <EditApartment /> </LogoutMiddleware>} />
       </Routes>
