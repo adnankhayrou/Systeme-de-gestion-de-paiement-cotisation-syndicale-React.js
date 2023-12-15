@@ -74,7 +74,7 @@ const Apartments = () => {
       axios.post('http://localhost:3000/api/apartment/createApartment', requestData)
         .then(result => {
           const msg = result.data.success;
-          console.log(msg);
+          // console.log(msg);
           setRefetch(!refetch);
           sweetalert.fire('Success!', `${msg}`, 'success');
           setShowModal(false)

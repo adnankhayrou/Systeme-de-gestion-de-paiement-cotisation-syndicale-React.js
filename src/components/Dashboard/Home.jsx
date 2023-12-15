@@ -1,16 +1,44 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from '../Layouts/NavBar'
 import SideBar from '../Layouts/SideBare'
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const Home = () => {
-  // const user = JSON.parse(Cookies.get('user'));
+  const user = JSON.parse(Cookies.get('user'));
+  const user_id = user._id
+  const [loading, setLoading] = useState(true);
+  const [allApartments, setAllApartment] = useState([]);
+  const [apartments, setApartment] = useState([]);
+  const [paidApartments, setPaidApartment] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const response = await axios.get(`http://localhost:3000/api/payment/getAllPayments/${user_id}`);
+        console.log(response.data);
+        setAllApartment(response.data.apartments);
+        setApartment(response.data.unpaidApartments);
+        setPaidApartment(response.data.AlreadyPaidApartments);
+
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user_id]);
 
   return (
     <>
       <NavBar/>
       <SideBar/>
+      
       {/* Main content */}
       <div className="sm:ml-64 pt-5">
       <div className="lg:flex sm:grid items-center mt-5 pt-14 justify-center m-3">
@@ -32,7 +60,7 @@ const Home = () => {
                     </p>
                   </div>
                     <h2 className="text-xl font-bold">
-                      <span>26</span>
+                      <span>{allApartments.length}</span>
                     </h2>
                   </div>
                 </div>
@@ -60,7 +88,7 @@ const Home = () => {
                     </p>
                   </div>
                     <h2 className="text-xl font-bold">
-                      <span>26</span>
+                      <span>{allApartments.length}</span>
                     </h2>
                   </div>
                 </div>
@@ -85,7 +113,7 @@ const Home = () => {
                     </p>
                   </div>
                     <h2 className="text-xl font-bold">
-                      <span>26</span>
+                      <span>{paidApartments.length}</span>
                     </h2>
                   </div>
                 </div>
@@ -103,7 +131,7 @@ const Home = () => {
                     </p>
                   </div>
                     <h2 className="text-xl font-bold">
-                      <span>26</span>
+                      <span>{apartments.length}</span>
                     </h2>
                   </div>
                 </div>
@@ -113,274 +141,193 @@ const Home = () => {
         </div>
       </div>
       </div>
-
+      {loading ? (
+        <div className="sm:ml-64 pt-2">
+      <div className="flex justify-center items-center  mt-40 sm:me-40">
+        <div className="spinner-border text-yellow-500" role="status">
+        <svg aria-hidden="true" className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600" viewBox="0 0 100 101"  fill="none"  xmlns="http://www.w3.org/2000/svg" >
+          <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+            fill="currentColor"/>
+          <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+            fill="currentFill"/>
+        </svg>
+        </div>
+        <div className="ml-2">Loading...</div>
+      </div>
+      </div>
+      ) : (
+        <>
       {/* two tables */}
-      {/* <div className="sm:ml-64 lg:flex sm:grid items-center mt-6 pt-6 justify-center ms-3">
-      <div className="relative overflow-x-auto rounded-lg mb-3 me-3">
+      <div className="sm:ml-64 lg:flex sm:grid items-center mt-6 pt-6 justify-center ms-3">
+      <div className=" overflow-x-auto rounded-lg mb-3 me-3">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" className="text-pink-700 px-6 border-none rounded-tl-lg rounded-tr-lg rounded-br-none rounded-bl-none py-3">
-              Apartments details
+              unpaid Apartments
             </th>
           </tr>
           <tr>
             <th scope="col" className="px-6 py-3">
-              Product name
+            Building
             </th>
             <th scope="col" className="px-6 py-3">
-              Color
+             number
             </th>
             <th scope="col" className="px-6 py-3">
-              Category
+             name
             </th>
             <th scope="col" className="px-6 py-3">
-              Price
+             cin
             </th>
             <th scope="col" className="px-6 rounded-tr-lg py-3">
-              Action
+              Payment
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
+        {apartments.map((apartment) => (
+          <tr key={apartment._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" className="px-9 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {apartment.building_ID}
             </th>
-            <td className="px-6 py-4">
-              Silver
+            <td className="px-9 py-4">
+            {apartment.apartment_number}
+            </td>
+            <td className="px-4 py-4">
+            {apartment.resident_name}
+            </td>
+            <td className="px-4 py-4">
+            {apartment.resident_cin}
             </td>
             <td className="px-6 py-4">
-              Laptop
-            </td>
-            <td className="px-6 py-4">
-              $2999
-            </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+              <p className='rounded bg-pink-800 text-white p-2 pt-1'>unpaid</p>
             </td>
           </tr>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
-            </th>
-            <td className="px-6 py-4">
-              Silver
-            </td>
-            <td className="px-6 py-4">
-              Laptop
-            </td>
-            <td className="px-6 py-4">
-              $2999
-            </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-            </td>
-          </tr>
+           ))}
         </tbody>
       </table>
       </div>
       
-      <div className="relative overflow-x-auto rounded-lg mb-3 me-3">
+      <div className=" overflow-x-auto rounded-lg mb-3 me-3">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" className="text-pink-700 px-6 rounded-tl-lg rounded-tr-lg rounded-br-none rounded-bl-none py-3">
-              Residents details
+              paid apartments
             </th>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3">
-              Product name
+          <th scope="col" className="px-6 py-3">
+            Building
             </th>
             <th scope="col" className="px-6 py-3">
-              Color
+             number
             </th>
             <th scope="col" className="px-6 py-3">
-              Category
+             name
             </th>
             <th scope="col" className="px-6 py-3">
-              Price
+             date
             </th>
             <th scope="col" className="px-6 rounded-tr-lg py-3">
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
-            </th>
-            <td className="px-6 py-4">
-              Silver
-            </td>
-            <td className="px-6 py-4">
-              Laptop
-            </td>
-            <td className="px-6 py-4">
-              $2999
-            </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-            </td>
-          </tr>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
-            </th>
-            <td className="px-6 py-4">
-              Silver
-            </td>
-            <td className="px-6 py-4">
-              Laptop
-            </td>
-            <td className="px-6 py-4">
-              $2999
-            </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
-      </div> */}
-
-      {/* single table */}
-      <div className="sm:ml-64 sm:px-14 ps-3 my-3">
-      <div className=" overflow-x-auto rounded-lg mb-3 me-3">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-          <th scope="col" className=" text-pink-700 px-6 rounded-tl-lg rounded-tr-lg rounded-br-none rounded-bl-none py-3">
-              Payment details
-            </th>
-          </tr>
-          <tr>
-            <th scope="col" className="px-6 py-3">
               Payment
             </th>
-            <th scope="col" className="px-6 py-3">
-              Color
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Category
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Price
-            </th>
-            <th scope="col" className="px-6 rounded-tr-lg py-3">
-              Action
-            </th>
           </tr>
         </thead>
         <tbody>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
+        {paidApartments.map((paidApartment) => (
+          <tr key={paidApartment._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" className="px-9 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {paidApartment.apartment.building_ID}
             </th>
-            <td className="px-6 py-4">
-              Silver
+            <td className="px-9 py-4">
+            {paidApartment.apartment.apartment_number}
             </td>
             <td className="px-6 py-4">
-              Laptop
+            {paidApartment.apartment.resident_name}
+            </td>
+            <td className="px-4 py-4">
+            {new Date(paidApartment.date).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })}
             </td>
             <td className="px-6 py-4">
-              $2999
-            </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+              <p className='rounded bg-green-800 text-white text-center p-2 pt-1'>paid</p>
             </td>
           </tr>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
-            </th>
-            <td className="px-6 py-4">
-              Silver
-            </td>
-            <td className="px-6 py-4">
-              Laptop
-            </td>
-            <td className="px-6 py-4">
-              $2999
-            </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-            </td>
-          </tr>
+           ))}
         </tbody>
       </table>
       </div>
       </div>
 
-      <div className="sm:ml-64 sm:px-14 ps-3 my-3">
-      <div className=" overflow-x-auto rounded-lg mb-3 me-3">
+      {/* single table */}
+      <div className="sm:ml-64 sm:px-12 my-4 mx-2">
+      <div className=" overflow-x-auto rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
           <th scope="col" className=" text-pink-700 px-6 rounded-tl-lg rounded-tr-lg rounded-br-none rounded-bl-none py-3">
-              Payment details
+              apartments details
             </th>
           </tr>
           <tr>
-            <th scope="col" className="px-6 py-3">
-              Payment
+          <th scope="col" className="px-6 py-3">
+               Building ID
             </th>
             <th scope="col" className="px-6 py-3">
-              Color
+               apartment number
             </th>
             <th scope="col" className="px-6 py-3">
-              Category
+               resident name
             </th>
             <th scope="col" className="px-6 py-3">
-              Price
+               resident phone
+            </th>
+            <th scope="col" className="px-6 py-3">
+               resident cin
             </th>
             <th scope="col" className="px-6 rounded-tr-lg py-3">
-              Action
+               condition
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
+        {allApartments.map((allApartment) => (
+          <tr key={allApartment._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {allApartment.building_ID}
             </th>
-            <td className="px-6 py-4">
-              Silver
+            <td className="px-14 py-4">
+              {allApartment.apartment_number}
             </td>
-            <td className="px-6 py-4">
-              Laptop
+            <td className="px-12 py-4">
+            {allApartment.resident_name}
             </td>
-            <td className="px-6 py-4">
-              $2999
+            <td className="px-9 py-4">
+              {allApartment.resident_phone}
             </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            <td className="px-9 py-4">
+            {allApartment.resident_cin}
+            </td>
+            <td className="px-9 py-4">
+            {allApartment.condition}
             </td>
           </tr>
-          <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Apple MacBook Pro 17
-            </th>
-            <td className="px-6 py-4">
-              Silver
-            </td>
-            <td className="px-6 py-4">
-              Laptop
-            </td>
-            <td className="px-6 py-4">
-              $2999
-            </td>
-            <td className="px-6 py-4">
-              <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-            </td>
-          </tr>
+          ))}
         </tbody>
       </table>
       </div>
       </div>
+
+      </>
+      )}
     </>
   )
 }
