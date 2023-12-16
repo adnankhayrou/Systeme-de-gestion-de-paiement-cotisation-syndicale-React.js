@@ -49,7 +49,7 @@ function App() {
         <Route path='/verifyEmail/:token' element={ <VerifyEmail /> }/>
         <Route path='/apartments' element={<LogoutMiddleware> <Apartments /> </LogoutMiddleware>} />
         <Route path='/payment' element={<LogoutMiddleware> <Payment /> </LogoutMiddleware>} />
-        <Route path='/paymentFacture' element={<LogoutMiddleware> <PaymentFacture /> </LogoutMiddleware>} />
+        <Route path='/paymentInvoice' element={<LogoutMiddleware> <PaymentFacture /> </LogoutMiddleware>} />
         <Route path='/editApartment' element={<LogoutMiddleware> <EditApartment /> </LogoutMiddleware>} />
       </Routes>
     </BrowserRouter>
