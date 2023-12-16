@@ -1,0 +1,21 @@
+@media print {
+   
+    .none-print {
+      display: none;
+    }
+
+    .full{
+        width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        padding-top: 3em !important;
+    }
+
+    .needToshow{
+        display: block !important;
+    }
+
+    .changetext{
+        color: green !important;
+    }
+  }

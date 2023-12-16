@@ -5,7 +5,7 @@ import SideBar from '../Layouts/SideBare'
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import sweetalert from 'sweetalert2';
-// import printJS from 'print-js';
+import './print.css'
 
 
 const Payment = () => {
@@ -21,13 +21,10 @@ const Payment = () => {
     user_id: user_id,
   });
 
-  // const handlePrint = () => {
-  //   printJS({
-  //     printable: 'printable-content',
-  //     type: 'html',
-  //     targetStyles: ['*'], 
-  //   });
-  // };
+  const handlePrint = () => {
+    window.print();
+  };
+
 
   const handleClick = async (aparmentId) => {
     setPaymentData({ ...paymentData, apartment: aparmentId })
@@ -59,7 +56,6 @@ const Payment = () => {
     }
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -82,7 +78,9 @@ const Payment = () => {
   return (
     <>
     <NavBar/>
+    <div className='none-print'> 
     <SideBar/>
+    </div>
       {loading ? (
         <div className="sm:ml-64 pt-2">
       <div className="flex justify-center items-center  mt-64 sm:me-40">
@@ -102,11 +100,11 @@ const Payment = () => {
           {/* print button */}
       <div className="sm:ml-64 pt-2"></div>
       <div className="lg:flex sm:grid items-center justify-center m-3"></div>
-      <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-14 print-only">
+      <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-14 print-only none-print">
         <div className=" rounded-lg mb-3 me-3 pt-6">
           <div className='flex justify-end mt-5'>
             <button 
-            // onClick={handlePrint} 
+            onClick={handlePrint} 
             className="flex block text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-800 dark:hover:bg-pink-700 " type="button">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="me-2 w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
@@ -116,8 +114,13 @@ const Payment = () => {
           </div>
         </div>
       </div>
+      <div className="pt-14 hidden needToshow">
+      <div className="lg:flex sm:grid items-center justify-center m-3">
+        <p className='font-bold text-pink-800'>This Month Statistics</p>
+      </div>
+      </div>
       {/* unpaid apartment table */}
-      <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-12" id="printable-content">
+      <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-12 full">
         <div className=" overflow-x-auto rounded-lg mb-3 me-3">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -136,17 +139,20 @@ const Payment = () => {
                 <th scope="col" className="px-6 py-3">
                 resident name
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 none-print">
                 resident phone
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 none-print">
                 resident cin
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 none-print">
                 condition
                 </th>
-                <th scope="col" className="px-6 rounded-tr-lg py-3">
+                <th scope="col" className="px-8 rounded-tr-lg py-3 none-print">
                   Action
+                </th>
+                <th scope="col" className="px-8 rounded-tr-lg py-3 hidden needToshow">
+                  payment
                 </th>
               </tr>
             </thead>
@@ -162,19 +168,24 @@ const Payment = () => {
                 <td className="px-12 py-4">
                 {apartment.resident_name}
                 </td>
-                <td className="px-9 py-4">
+                <td className="px-9 py-4 none-print">
                   {apartment.resident_phone}
                 </td>
-                <td className="px-9 py-4">
+                <td className="px-9 py-4 none-print">
                 {apartment.resident_cin}
                 </td>
-                <td className="px-9 py-4">
+                <td className="px-9 py-4 none-print">
                 {apartment.condition}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 none-print">
                   <button className="rounded p-2 pt-0 flex font-medium text-white bg-pink-700 "
                   onClick={() => handleClick(apartment._id)}>
                   pay now
+                  </button>
+                </td>
+                <td className="px-6 py-4 hidden needToshow">
+                  <button className="rounded p-2 pt-0 flex font-medium text-red-800 bg-pink-700 ">
+                  unpaid
                   </button>
                 </td>
               </tr>
@@ -185,7 +196,7 @@ const Payment = () => {
       </div>
 
       {/* paid apartment table */}
-      <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-12">
+      <div className="sm:ml-64 sm:px-14 ps-3 my-3 sm:mt-12 full">
         <div className=" overflow-x-auto rounded-lg mb-3 me-3">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -204,10 +215,10 @@ const Payment = () => {
                 <th scope="col" className="px-6 py-3">
                 resident name
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 none-print">
                 resident phone
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 none-print">
                 resident cin
                 </th>
                 <th scope="col" className="px-6 py-3">
@@ -230,10 +241,10 @@ const Payment = () => {
                 <td className="px-12 py-4">
                 {paidApartment.apartment.resident_name}
                 </td>
-                <td className="px-9 py-4">
+                <td className="px-9 py-4 none-print">
                   {paidApartment.apartment.resident_phone}
                 </td>
-                <td className="px-9 py-4">
+                <td className="px-9 py-4 none-print">
                 {paidApartment.apartment.resident_cin}
                 </td>
                 <td className=" py-4">
@@ -248,8 +259,8 @@ const Payment = () => {
                 })}
                 </td>
                 
-                <td className="px-9 py-4 ">
-                <p className="font-medium p-1 pt-0 text-white rounded bg-green-700 text-center">
+                <td className="px-6 py-4 ">
+                <p className="font-medium p-1 pt-0 text-white rounded bg-green-700 text-center changetext">
                   {paidApartment.payment}
                 </p>
                 </td>
