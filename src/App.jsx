@@ -8,6 +8,7 @@ import VerifyEmail from './components/Auth/VerifyEmail'
 import Apartments from './components/Apartments/Apartments'
 import EditApartment from './components/Apartments/EditApartment'
 import Payment from './components/Payments/Payment'
+import PaymentFacture from './components/PrintFacture/Facture'
 import Cookies from 'js-cookie';
 
 // eslint-disable-next-line react/prop-types
@@ -48,6 +49,7 @@ function App() {
         <Route path='/verifyEmail/:token' element={ <VerifyEmail /> }/>
         <Route path='/apartments' element={<LogoutMiddleware> <Apartments /> </LogoutMiddleware>} />
         <Route path='/payment' element={<LogoutMiddleware> <Payment /> </LogoutMiddleware>} />
+        <Route path='/paymentFacture' element={<LogoutMiddleware> <PaymentFacture /> </LogoutMiddleware>} />
         <Route path='/editApartment' element={<LogoutMiddleware> <EditApartment /> </LogoutMiddleware>} />
       </Routes>
     </BrowserRouter>

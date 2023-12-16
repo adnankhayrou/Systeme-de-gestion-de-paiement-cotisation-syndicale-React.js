@@ -18,4 +18,8 @@
     .changetext{
         color: green !important;
     }
+
+    .afterRemovingButton{
+        margin-top: 10em !important;
+    }
   }

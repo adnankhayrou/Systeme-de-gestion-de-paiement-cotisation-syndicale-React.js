@@ -6,11 +6,13 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import sweetalert from 'sweetalert2';
 import './print.css'
+import { useNavigate } from 'react-router-dom';
 
 
 const Payment = () => {
   const user = JSON.parse(Cookies.get('user'));
   const user_id = user._id
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [apartments, setApartment] = useState([]);
   const [paidApartments, setPaidApartment] = useState([]);
@@ -25,6 +27,9 @@ const Payment = () => {
     window.print();
   };
 
+  const paymentFacture = (id) => {
+    navigate('/paymentFacture', { state: { paymentId: id }});
+  }
 
   const handleClick = async (aparmentId) => {
     setPaymentData({ ...paymentData, apartment: aparmentId })
@@ -212,7 +217,7 @@ const Payment = () => {
                 <th scope="col" className="px-6 py-3">
                 apartment number
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 ">
                 resident name
                 </th>
                 <th scope="col" className="px-6 py-3 none-print">
@@ -223,6 +228,9 @@ const Payment = () => {
                 </th>
                 <th scope="col" className="px-6 py-3">
                 date
+                </th>
+                <th scope="col" className="px-6 none-print">
+                  facture
                 </th>
                 <th scope="col" className="px-6 rounded-tr-lg py-3">
                   Payment
@@ -248,7 +256,6 @@ const Payment = () => {
                 {paidApartment.apartment.resident_cin}
                 </td>
                 <td className=" py-4">
-                {/* {paidApartment.date} */}
                 {new Date(paidApartment.date).toLocaleString("en-US", {
                   year: "numeric",
                   month: "2-digit",
@@ -258,7 +265,15 @@ const Payment = () => {
                   hour12: false,
                 })}
                 </td>
-                
+                <td className="px-9 py-4 none-print">
+                <button 
+                  onClick={() => paymentFacture(paidApartment._id)} 
+                  className="text-sm text-pink-700 text-center" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
+                  </svg>
+                  </button>
+                </td>
                 <td className="px-6 py-4 ">
                 <p className="font-medium p-1 pt-0 text-white rounded bg-green-700 text-center changetext">
                   {paidApartment.payment}
