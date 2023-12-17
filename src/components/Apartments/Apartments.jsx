@@ -17,6 +17,8 @@ const Apartments = () => {
   const [apartments, setApartment] = useState([]);
   const [refetch, setRefetch] = useState(true)
   const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState({});
+  const [error, setError] = useState(null);
 
 
   const editApartment = (id) => {
@@ -49,11 +51,10 @@ const Apartments = () => {
     setShowModal(false)
     resetForm();
     setErrors({});
+    setError(null)
   };
 
-  const [errors, setErrors] = useState({});
-  const [error, setError] = useState(null);
-  const [valid, setValid] = useState(true);
+  
 
   const schema = yup.object().shape({
     building_ID: yup.string().required('Building ID is Required'),
@@ -82,6 +83,7 @@ const Apartments = () => {
         })
         .catch(err => {
           const errorMsg = err.response ? err.response.data.error : 'An error occurred in add apartment';
+          console.log(errorMsg);
           setError(errorMsg);
         });
     } catch (validationError) {
@@ -90,7 +92,6 @@ const Apartments = () => {
         fieldErrors[err.path] = err.message;
       });
       setErrors(fieldErrors);
-      setValid(false);
     }
   };
 
@@ -281,6 +282,8 @@ const Apartments = () => {
                     </span>
                   </button>
                   </div>
+                  {/* Display overall form error */}
+                  {<div className="text-red-600 text-xs text-center mt-2">{error}</div>}
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
                     <form className=" mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
@@ -365,7 +368,7 @@ const Apartments = () => {
                           <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
                             Condition 
                           </label>
-                          {/* {errors.condition && <span className="text-red-600 text-xs">{errors.condition}</span>} */}
+                          {errors.condition && <span className="text-red-600 text-xs">{errors.condition}</span>}
                         </div>
                       </div>
 
@@ -388,8 +391,6 @@ const Apartments = () => {
                       <button className="mt-6 block w-full select-none rounded-lg bg-pink-700 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-light="true">
                         Save
                       </button>
-                      {/* Display overall form error */}
-                      {!valid && <div className="text-red-600 text-xs">{error}</div>}
                     </form>
                   </div>
                 </div>
