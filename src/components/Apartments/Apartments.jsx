@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import NavBar from '../Layouts/NavBar'
 import SideBar from '../Layouts/SideBare'
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import sweetalert from 'sweetalert2';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../Context/UserContext';
 
 
 const Apartments = () => {
-  const user = JSON.parse(Cookies.get('user'));
+  const { user } = useUserContext();
   const user_id = user._id
+  
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [apartments, setApartment] = useState([]);

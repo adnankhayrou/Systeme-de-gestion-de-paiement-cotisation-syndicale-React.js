@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from '../Layouts/NavBar'
 import SideBar from '../Layouts/SideBare'
-import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useUserContext } from '../Context/UserContext';
 
 const Home = () => {
-  const user = JSON.parse(Cookies.get('user'));
+  const { user } = useUserContext();
   const user_id = user._id
   const [loading, setLoading] = useState(true);
   const [allApartments, setAllApartment] = useState([]);
