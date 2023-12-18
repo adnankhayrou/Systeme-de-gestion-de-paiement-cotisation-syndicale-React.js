@@ -6,5 +6,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port:5173, host:'0.0.0.0'
-  }
+  },
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: './tests/setup.js',
+  },
 })
+
+
