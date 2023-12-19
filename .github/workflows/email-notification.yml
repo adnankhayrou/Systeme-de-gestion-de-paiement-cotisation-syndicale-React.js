@@ -36,3 +36,4 @@ jobs:
           sgMail.send(msg);
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+
