@@ -2,18 +2,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NavBar from '../Layouts/NavBar'
 import SideBar from '../Layouts/SideBare'
 import { useEffect, useState } from "react";
-import Cookies from 'js-cookie';
 import axios from "axios";
 import sweetalert from 'sweetalert2';
 import * as yup from 'yup';
+import { useUserContext } from '../Context/UserContext';
+
 
 const EditApartment = () => {
-    const user = JSON.parse(Cookies.get('user'));
+    const { user } = useUserContext();
     const user_id = user._id
 
     const location = useLocation();
     let aparment_id = location.state?.aparmentId;
-    console.log(aparment_id);
+    // console.log(aparment_id);
 
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
