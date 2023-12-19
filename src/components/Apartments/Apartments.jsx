@@ -283,7 +283,7 @@ const Apartments = () => {
                     </span>
                   </button>
                   </div>
-                  {/* Display overall form error */}
+                  {/* Display error */}
                   {<div className="text-red-600 text-xs text-center mt-2">{error}</div>}
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
