@@ -33,7 +33,7 @@ const Apartments = () => {
     resident_phone: '',
     resident_cin: '',
     condition: '',
-    user_id: '',
+    user_id: user_id,
   });
 
   const resetForm = () => {
@@ -44,8 +44,9 @@ const Apartments = () => {
       resident_phone: '',
       resident_cin: '',
       condition: '',
-      user_id: '',
+      user_id:'',
     });
+    setError()
   };
 
   const handleCloseModal = () => {
@@ -70,7 +71,6 @@ const Apartments = () => {
     e.preventDefault();
     try {
       await schema.validate(addFormData, { abortEarly: false });
-      setAddFormData({ ...addFormData, user_id: user_id })
       const requestData = { ...addFormData };
 
       axios.post('http://localhost:3000/api/apartment/createApartment', requestData)
