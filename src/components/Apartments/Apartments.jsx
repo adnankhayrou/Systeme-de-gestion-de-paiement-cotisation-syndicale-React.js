@@ -56,8 +56,6 @@ const Apartments = () => {
     setError(null)
   };
 
-  
-
   const schema = yup.object().shape({
     building_ID: yup.string().required('Building ID is Required'),
     apartment_number: yup.number().required('Apartment Number is Required'),
@@ -76,7 +74,6 @@ const Apartments = () => {
       axios.post('http://localhost:3000/api/apartment/createApartment', requestData)
         .then(result => {
           const msg = result.data.success;
-          // console.log(msg);
           setRefetch(!refetch);
           sweetalert.fire('Success!', `${msg}`, 'success');
           setShowModal(false)
@@ -132,9 +129,12 @@ const Apartments = () => {
         setApartment(response.data.apartments);
 
         setLoading(false);
+        setAddFormData({ ...addFormData, user_id: user_id })
+
       } catch (error) {
         console.error(error);
         setLoading(false);
+        
       }
     };
 
