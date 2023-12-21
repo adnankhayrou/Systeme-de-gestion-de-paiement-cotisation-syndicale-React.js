@@ -19,7 +19,6 @@ const Home = () => {
         setLoading(true);
 
         const response = await axios.get(`http://localhost:3000/api/payment/getAllPayments/${user_id}`);
-        // console.log(response.data);
         setAllApartment(response.data.apartments);
         setApartment(response.data.unpaidApartments);
         setPaidApartment(response.data.AlreadyPaidApartments);
@@ -31,8 +30,8 @@ const Home = () => {
       }
     };
 
-    fetchData();
-  }, [user_id]);
+    if (user_id) fetchData();
+  }, [user_id, user]);
 
   return (
     <>

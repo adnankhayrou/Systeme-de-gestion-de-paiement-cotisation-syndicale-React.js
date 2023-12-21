@@ -4,8 +4,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import NavBar from '../Layouts/NavBar'
+import { useUserContext } from '../Context/UserContext';
+
 
 const Login = () => {
+  const { setUser } = useUserContext();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -54,6 +57,7 @@ const Login = () => {
           Cookies.set("jwtToken", token);
           const user = JSON.stringify( result.data.user);
           Cookies.set('user', user) ;
+          setUser(result.data.user)
           navigate('/')
         })
         .catch((err) => {

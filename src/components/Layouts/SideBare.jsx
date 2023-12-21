@@ -7,9 +7,7 @@ import { useUserContext } from '../Context/UserContext';
 
 
 const SideBare = () => {
-    const { user } = useUserContext();
-      // console.log('login user',user);
-
+    const { user, logoutUser } = useUserContext();
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -22,7 +20,8 @@ const SideBare = () => {
       .then(result => {
         Cookies.remove('jwtToken');
         Cookies.remove('user') ;
-        const msg = result.data.success;
+        logoutUser()
+        const msg = result?.data.success;
         console.log(msg);
         navigate('/login')
       })
@@ -92,10 +91,10 @@ const SideBare = () => {
 
           <div className="px-4 py-3" role="none">
                 <p className="text-sm text-gray-900 dark:text-white" role="none">
-                Welcome {user.name}
+                Welcome {user?.name}
                 </p>
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                {user.email}
+                {user?.email}
                 </p>
             </div>
            </div>

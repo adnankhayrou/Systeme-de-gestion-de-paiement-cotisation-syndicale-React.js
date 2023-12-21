@@ -5,7 +5,7 @@ FROM node:18.13-alpine
 # Working directory be app
 WORKDIR /app
 
-# Install Dependencies
+# Dependencies
 COPY package.json .
 
 ###  Installing dependencies
